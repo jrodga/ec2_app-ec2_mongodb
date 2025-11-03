@@ -23,7 +23,7 @@ ssh -i <your-key>.pem ubuntu@<EC2-Public-DNS>
 ## 2) Create the MongoDB setup script on the EC2
 
 ```
-sudo nano ~/install_mongodb.sh
+sudo nano script_mongodb.sh
 ```
 
 -  inside the document we create all the nesessary comands
@@ -84,5 +84,35 @@ sudo systemctl restart mongod
 sudo systemctl status mongod
 ```
      
+**Make it executable and run it:**
+```
+chmod +x script_mongodb.sh
+sudo install_mongodb.sh
+```
+**Note:**
 
-  
+Opening bindIp to 0.0.0.0 allows connections from any source permitted by Security Groups. Always restrict inbound 27017 in the Security Group to trusted sources only.
+
+## 3) Create an AMI image
+
+When MongoDB is installed and running, bake the image.
+
+In the EC2 console, select the configured instance
+
+Actions → Image and templates → Create image
+
+Name: mongodb-ubuntu-22-04-v1
+
+Reboot option enabled
+
+Create image
+
+After the AMI is available, you can launch future DB instances from this image. Apply a Security Group that allows inbound 27017 only from your App EC2 or a narrow CIDR.(i will suse 0.0.0.0 for testing not best practise)
+
+Notes and housekeeping
+
+Keep SSH closed once your image is baked and tested
+
+For production, use EBS volumes with suitable size and IO, add CloudWatch metrics and backups
+
+Consider pinning a specific MongoDB minor version in apt preferences if you need strict versioning
