@@ -22,7 +22,7 @@ ssh -i <your-key>.pem ubuntu@<EC2-Public-DNS>
 
 ## 2) Create the MongoDB setup script on the EC2
 
-```
+```bash
 sudo nano script_mongodb.sh
 ```
 
@@ -40,7 +40,8 @@ sudo nano script_mongodb.sh
 
    - Put the next comndas in the script
  
-```#!/bin/bash
+```bash
+#!/bin/bash
 
 # update and upgrade the ec2 
 
@@ -85,7 +86,7 @@ sudo systemctl status mongod
 ```
      
 **Make it executable and run it:**
-```
+```bash
 chmod +x script_mongodb.sh
 sudo install_mongodb.sh
 ```
@@ -116,3 +117,38 @@ Keep SSH closed once your image is baked and tested
 For production, use EBS volumes with suitable size and IO, add CloudWatch metrics and backups
 
 Consider pinning a specific MongoDB minor version in apt preferences if you need strict versioning
+
+
+## App EC2 image build and launch guide
+
+**This creates:**
+
+- An App EC2 build script you run once to install Node, Nginx, PM2 and your app, then bake an AMI
+
+- A User Data script to run on instances launched from that AMI that sets DB_HOST, seeds the DB and brings the app up
+
+**1) Build the App EC2 and run the setup script**
+
+**EC2 settings**
+
+- AMI: Ubuntu
+
+- Type: t3.micro 
+
+- Security group: inbound HTTP 80 from the internet (i will suse 0.0.0.0 for testing not best practise)
+
+
+**in SSH:**
+```bash
+ssh -i ~/.ssh/<your-key>.pem ubuntu@<APP-EC2-Public-DNS>
+```
+
+**Create the build script:**
+
+```bash
+sudo nano app_script.sh
+
+```
+**inside the document**
+
+
