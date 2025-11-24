@@ -223,8 +223,8 @@ echo "Build complete. Set DB_HOST at launch time so the app can talk to MongoDB.
 **Run it:**
 
 ```bash
-chmod +x app_script.sh
-sudo source app_script.sh
+sudo chmod +x app_script.sh
+source app_script.sh
 ```
 
 **Quick checks:**
