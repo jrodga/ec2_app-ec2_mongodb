@@ -276,7 +276,7 @@ cd se-sparta-test-app/app
 sleep 10
 
 # 5. Install dependencies
-npm install
+sudo npm install
 # Installs Node.js packages listed in package.json
 
 # 6. Wait for MongoDB to be ready
